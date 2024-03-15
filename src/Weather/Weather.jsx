@@ -1,8 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
-// import Search from "./Search";
-// import Result from "./Result";
+import "./Weather.css";
 import axios from "axios";
-// import "./Weat.css";
+import { FaSearch } from "react-icons/fa";
 
 function Weather() {
   const [data, setData] = useState([]);
@@ -15,7 +14,7 @@ function Weather() {
   useEffect(() => {
     axios
       .get(
-        "http://api.weatherapi.com/v1/current.json?key=c92cc06629e74da18c041757241201&q=Surat&aqi=no"
+        "http://api.weatherapi.com/v1/current.json?key=c61cceb3c4414c76b4b81539241403&q=Surat&aqi=no"
       )
       .then((res) => {
         console.log(res);
@@ -30,7 +29,7 @@ function Weather() {
   const Addhandler = () => {
     axios
       .get(
-        `http://api.weatherapi.com/v1/current.json?key=c92cc06629e74da18c041757241201&q=${country}&aqi=no`
+        `http://api.weatherapi.com/v1/current.json?key=c61cceb3c4414c76b4b81539241403&q=${country}&aqi=no`
       )
       .then((res) => {
         console.log(res.data);
@@ -43,26 +42,29 @@ function Weather() {
       });
   };
   return (
-    <div>
-      <label htmlFor="">City Name</label>
-      <input
-        type="text"
-        className="border input-style"
-        name=""
-        id=""
-        value={country}
-        onChange={(evt) => setCountry(evt.target.value)}
-      />
-      <h1 id="dispaly"></h1>
-      <button className="btn btn-primary" onClick={Addhandler}>
-        Click
-      </button>
+    <div className="">
+      <div className="Input-box">
+        <label htmlFor="">City Name:</label>
+        <input
+          type="text"
+          className="border input-style"
+          name=""
+          id=""
+          value={country}
+          onChange={(evt) => setCountry(evt.target.value)}
+
+        />
+        <h1 id="dispaly"></h1>
+        <button className="btn btn-primary ml-2" onClick={Addhandler}>
+        <FaSearch />
+        </button>
+      </div>
       {/* <Search></Search>
         <Result> </Result> */}
       <div className="d-flex justify-content-center mt-10">
         <div
-          className="card shadow p-4 bg-dark text-dark bg-img"
-          style={{ width: "500px", height: "300px" }}
+          className="card shadow p-4 bg-dark text-dark bg-img shadow-2xl "
+          style={{ width: "600px", height: "300px" }}
         >
           <div className="row">
             <div className="col-6">
@@ -79,9 +81,13 @@ function Weather() {
               <h4 className="mt-5">
                 {data.map((el, i) => {
                   return (
+                    <>
                     <span className="display-4 font-semibold text-white">
                       {el.temp_c}c
                     </span>
+                    <span className="text-white font-bold mt-6 block">Pressure:{el.pressure_in}</span>
+                    <span className="text-white font-bold mt-6 block">Wind:{el.wind_mph}mph</span>
+                    </>
                   );
                 })}
               </h4>
@@ -89,18 +95,21 @@ function Weather() {
             <div className="col-6">
               {data.map((el, i) => {
                 return (
+                  <>
+                  <span className="text-white font-bold text-4xl mt-3 ">{el.condition.text}</span>
                   <img
                     src={el.condition.icon}
-                    className="mt-5"
-                    style={{ width: "150px", height: "150px" }}
-                    alt=""
-                  />
+                    className=""
+                    style={{ width: "200px", height: "200px" }}
+                    alt="" />
+                    </>
                 );
               })}
             </div>
           </div>
         </div>
       </div>
+      
     </div>
   );
 }
